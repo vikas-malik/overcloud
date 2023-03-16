@@ -1,0 +1,41 @@
+network:
+    version: 2
+    ethernets:
+        ens33:
+            mtu: 9000
+        ens34:
+            mtu: 9000
+        ens35:
+            mtu: 9000
+        ens36:
+            mtu: 9000
+        ens37:
+            mtu: 9000
+    bridges:
+        br-provider:
+            dhcp4: true
+            interfaces:
+            - ens33
+            mtu: 9000
+        br-mgmt:
+            addresses:
+            - 192.168.120.32/24
+            interfaces:
+            - ens34
+            mtu: 9000
+        br-vxlan:
+            addresses:
+            - 192.168.140.32/24
+            interfaces:
+            - ens35
+            mtu: 9000
+        br-storage:
+            addresses:
+            - 192.168.160.32/24
+            interfaces:
+            - ens36
+            mtu: 9000
+        br-vlan:
+            interfaces: 
+            - ens37
+            mtu: 9000

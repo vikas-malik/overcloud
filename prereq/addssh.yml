@@ -1,0 +1,30 @@
+---
+- hosts: openstack
+  become: true
+  become_user: root
+  gather_facts: true
+  tasks:
+       
+    - name: Copy the key add to authorized_keys to openstack user using Ansible module in overcloud
+      ansible.posix.authorized_key:
+        user: openstack
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+        state: present
+      notify: restart ssh
+    
+    - name: Set authorized key for user root copying it from current user
+      ansible.posix.authorized_key:
+        user: root
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+        state: present
+      notify: restart ssh
+
+
+  handlers:
+    - name: restart ssh
+      ansible.builtin.service:
+        name: sshd
+        state: restarted
+
+
+      

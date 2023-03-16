@@ -1,0 +1,21 @@
+---
+- name: add openstack to the list of sudoers
+  ansible.builtin.import_playbook: prereq/addsudo.yml
+
+- name: add openstack hosts to each other
+  ansible.builtin.import_playbook: prereq/addhosts.yml
+
+- name: add ssh access to all overcloud hosts
+  ansible.builtin.import_playbook: prereq/addssh.yml
+
+- name: Upgrade all overcloud hosts
+  ansible.builtin.import_playbook: prereq/updateupgrade.yml
+
+- name: Install additionla packages on overcloud hosts
+  ansible.builtin.import_playbook: prereq/addopenstackpack.yml
+
+- name: Network configure for each server
+  ansible.builtin.import_playbook: prereq/netplanapply.yml
+
+#- name: Create volume for block storage
+#  ansible.builtin.import_playbook: prereq/storageconf.yml

@@ -1,0 +1,18 @@
+---
+- hosts: openstack
+  become: true
+  become_user: root
+  gather_facts: true
+  vars:
+        masternode: localhost
+        clientnode: "{{ inventory_hostname }}"
+  tasks:
+  - name: Replace netplan existing yml files
+    become: true
+    become_user: root
+    ansible.builtin.copy:
+      src: "networks/{{ clientnode }}/netplan/00-installer-config.yaml"
+      dest: /etc/netplan/00-installer-config.yaml
+
+  - name: Start Netplan apply
+    command: netplan apply

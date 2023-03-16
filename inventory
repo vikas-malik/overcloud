@@ -1,0 +1,33 @@
+# ansible controller server
+[ansible-controller]
+undercloud ansible_host=192.168.120.6
+
+[infra]
+infra1 ansible_host=192.168.120.11
+infra2 ansible_host=192.168.120.12
+infra3 ansible_host=192.168.120.13
+
+[compute]
+compute1 ansible_host=192.168.120.21
+
+[storage]
+osd1 ansible_host=192.168.120.31
+osd2 ansible_host=192.168.120.32
+osd3 ansible_host=192.168.120.33
+
+[openstack:children]
+infra
+compute
+storage
+
+[cloud:children]
+ansible-controller
+infra
+compute
+storage
+
+# Variables that will be applied to servers
+[cloud:vars]
+ansible_user=openstack
+ansible_ssh_private_key_file=~/.ssh/id_rsa
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

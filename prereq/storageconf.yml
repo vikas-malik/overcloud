@@ -1,0 +1,10 @@
+---
+- hosts: storage1
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Initialize a block device to be used as a physical volume
+      ansible.builtin.shell: pvcreate --metadatasize 2048 /dev/vdb
+
+    - name: Create a new volume group using block devices
+      ansible.builtin.shell: vgcreate cinder-volumes /dev/vdb
